@@ -1,0 +1,453 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Pinyon+Script&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Allura&family=Imperial+Script&display=swap');
+@import url('https://fonts.cdnfonts.com/css/olivia');
+@import url('https://fonts.cdnfonts.com/css/sofia-carolyn');
+@import url('https://fonts.cdnfonts.com/css/beauty');
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@theme {
+  --font-sans: "Tahoma", "Inter", "Verdana", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", "Playfair Display", "Georgia", serif;
+  --font-cursive: "Alex Brush", cursive;
+  --font-hand: "Great Vibes", cursive;
+  --font-elegant: "Pinyon Script", cursive;
+  --font-sofia: "Sofia Carolyn", cursive;
+  --font-imperial: "Imperial Script", cursive;
+  --font-number: "Tahoma", sans-serif;
+  --color-gold: #C6A664;
+  --color-gold-deep: #B39254;
+  --color-charcoal: #161616;
+  --color-soft-white: #F8F8F6;
+  --color-lilac: #E9D5FF;
+  --color-lilac-baby: #F5EBFF;
+  --color-deep-black: #050505;
+}
+
+@layer utilities {
+  .font-fancy {
+    font-family: var(--font-elegant);
+  }
+  .font-beauty {
+    font-family: 'Beauty', 'Great Vibes', cursive;
+  }
+  .font-signature {
+    font-family: var(--font-imperial);
+  }
+  .font-tahoma {
+    font-family: "Tahoma", sans-serif;
+  }
+  .font-number {
+    font-family: var(--font-number);
+  }
+}
+
+@layer font-face {
+  @font-face {
+    font-family: 'Sofia Carolyn';
+    src: url('https://fonts.cdnfonts.com/s/72856/SofiaCarolyn.woff') format('woff');
+  }
+}
+
+@layer utilities {
+  .tracking-none {
+    letter-spacing: 0;
+  }
+}
+
+@layer utilities {
+  .animate-shimmer {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.4);
+    animation: sparkle-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes sparkle-pulse {
+    0%, 100% { opacity: 0.8; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+    50% { opacity: 1; text-shadow: 0 0 25px rgba(255,255,255,1); }
+  }
+}
+
+@layer base {
+  html, body, #root {
+    width: 100%;
+    background-color: #ffffff;
+    color: #050505;
+    font-family: "Tahoma", sans-serif;
+    line-height: 1.25;
+    scroll-behavior: smooth;
+  }
+  
+  p {
+    line-height: 1.25;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+}
+
+@layer components {
+  /* Animações e Estilos Customizados do Canva */
+  .entry-page-bg {
+    background: #0a0a0a;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3)); }
+    50% { filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.6)); }
+  }
+
+  .gradient-text {
+    color: #d4af37;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    background: none;
+    -webkit-text-fill-color: initial;
+    background-clip: initial;
+  }
+
+  .pixie-dust {
+    position: fixed;
+    pointer-events: none;
+    animation: pixie-dust-float 2s ease-out forwards;
+    font-size: 0.6rem;
+    text-shadow: 0 0 4px rgba(212, 175, 55, 0.6);
+    z-index: 9999;
+  }
+
+  @keyframes pixie-dust-float {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0) scale(0.3);
+    }
+    20% { opacity: 1; }
+    80% { opacity: 0.8; }
+    100% {
+      opacity: 0;
+      transform: translate(var(--dx, 0), var(--dy, 0)) scale(0);
+    }
+  }
+
+  .cursor-pixie-dust {
+    position: fixed;
+    pointer-events: none;
+    font-size: 0.7rem;
+    animation: cursor-sparkle-float 1.2s ease-out forwards;
+    z-index: 999;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.8), 0 0 15px rgba(255, 215, 0, 0.6);
+    filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.6));
+    font-weight: bold;
+  }
+
+  @keyframes cursor-sparkle-float {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--dx, 0), var(--dy, 0)) scale(0);
+    }
+  }
+
+  @keyframes burstSparkle {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    70% { opacity: 0.8; }
+    100% {
+      opacity: 0;
+      transform: translate(var(--tx, 0), var(--ty, 0)) scale(0) rotate(720deg);
+    }
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .burst-sparkle {
+    animation: burstSparkle 1.5s ease-out forwards;
+  }
+
+  .cursor-glow {
+    position: fixed;
+    pointer-events: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0) 70%);
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    animation: glow-fade-out 0.8s ease-out forwards;
+    mix-blend-mode: screen;
+  }
+
+  @keyframes glow-fade-out {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5);
+    }
+  }
+
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 12px 2px rgba(212, 175, 55, 0.6), 0 0 20px rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    animation: sparkle-fade-out 1s ease-out forwards;
+  }
+
+  @keyframes sparkle-fade-out {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, 25px) scale(0.1);
+    }
+  }
+
+  /* Classes de Tema Globais */
+  .theme-guennita {
+    --theme-primary: #56070c;
+    --theme-accent: #FFD700;
+    --theme-text: #ffffff;
+  }
+  .theme-lapallyra {
+    --theme-primary: #000000;
+    --theme-accent: #FFD700;
+    --theme-text: #ffffff;
+  }
+  /* Scrollbar Modernization */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 20px;
+    transition: background 0.3s ease;
+  }
+
+  *:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .dark *:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .theme-mimadasim {
+    --theme-primary: #ffffff;
+    --theme-accent: #FF007F;
+    --theme-text: #ffffff;
+  }
+
+  /* Admin Dashboard Premium Theme - Light Version */
+  .admin-bg {
+    background-color: #fdf2f8; /* pink-50 */
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(251, 113, 133, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(244, 114, 182, 0.05) 0px, transparent 50%);
+  }
+
+  .feminine-admin svg.lucide {
+    stroke-width: 1.2 !important;
+  }
+
+  .feminine-admin .font-black {
+    font-weight: 500 !important;
+  }
+  
+  .feminine-admin .font-bold {
+    font-weight: 400 !important;
+  }
+
+  .feminine-admin .tracking-widest {
+    letter-spacing: 0.1em !important;
+  }
+  
+  .feminine-admin .text-slate-900 {
+    color: #831843 !important; /* pink-900 */
+  }
+
+  .feminine-admin h1, .feminine-admin h2, .feminine-admin h3 {
+    font-family: var(--font-sans) !important;
+    letter-spacing: 0em !important;
+  }
+
+  .feminine-admin .bg-slate-900 {
+    background-color: #831843 !important;
+  }
+
+  .feminine-admin.bg-slate-950 {
+    background-color: #4c1d95 !important; /* deep purple/pink */
+  }
+  
+  .feminine-admin .text-slate-400 {
+    color: #f472b6 !important; /* pink-400 */
+  }
+
+  .feminine-admin .text-slate-500 {
+    color: #f472b6 !important; /* pink-400 */
+  }
+  
+  .feminine-admin .text-slate-300 {
+    color: #fbcfe8 !important; /* pink-200 */
+  }
+  
+  .feminine-admin .border-slate-100 {
+    border-color: #fbcfe8 !important; /* pink-200 */
+  }
+  
+  .feminine-admin .bg-slate-100 {
+    background-color: #fce7f3 !important; /* pink-100 */
+  }
+
+  .feminine-admin .text-gold {
+    color: #f472b6 !important;
+  }
+
+  .feminine-admin .text-lilac {
+    color: #fb7185 !important; /* rose-400 */
+  }
+  
+  .feminine-admin .bg-lilac {
+    background-color: #ffe4e6 !important; /* rose-100 */
+  }
+
+  .feminine-admin .border-lilac {
+    border-color: #fecdd3 !important; /* rose-200 */
+  }
+
+  .feminine-admin * {
+    border-radius: 20px !important; /* Softer radius everywhere */
+  }
+
+  .glass-premium {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 30px rgba(233, 213, 255, 0.1);
+  }
+
+  
+
+  .glow-border {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  /* Multi-brand identification rules */
+  .card-guennita {
+    border: 2px solid #800000 !important;
+  }
+  .tag-guennita {
+    background-color: #800000;
+  }
+  
+  .card-pallyra {
+    border: 2px solid #000000 !important;
+  }
+  .tag-pallyra {
+    background-color: #000000;
+  }
+
+  .card-mimada {
+    border: 2px solid #FFC0CB !important;
+  }
+  .tag-mimada {
+    background-color: #FFC0CB;
+  }
+
+  .brand-badge {
+    @apply w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black text-white shrink-0;
+  }
+}
+
+/* Formato Discreto de Scrollbar (para Desktop/Notebook) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.3);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.5);
+}
+
+/* Ocultar explicitamente onde tem a classe scrollbar-hide */
+.scrollbar-hide {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none !important;
+}
