@@ -1,0 +1,151 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ----------------------------------------------------
+    // GLOBAL HELPERS
+    // ----------------------------------------------------
+    function isSignedIn() { 
+      return request.auth != null && request.auth.token.email_verified == true; 
+    }
+    
+    function isAdmin() { 
+      return request.auth != null && 
+             request.auth.token.email_verified == true && (
+               request.auth.token.email == 'juualleixo@gmail.com' ||
+               request.auth.token.email == 'lapallyra@gmail.com'
+             );
+    }
+
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+
+    // ----------------------------------------------------
+    // DEFAULT DENY
+    // ----------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ----------------------------------------------------
+    // PRODUCTS
+    // ----------------------------------------------------
+    match /products/{productId} {
+      function isValidProduct(data) {
+        return data.keys().hasAll(['company', 'product_name', 'retail_price']) &&
+               data.company in ['pallyra', 'guennita', 'mimada'] &&
+               data.product_name is string && data.product_name.size() > 0 && data.product_name.size() <= 200 &&
+               data.retail_price is number && data.retail_price >= 0;
+      }
+      
+      allow get, list: if true;
+      allow create: if isAdmin() && isValidId(productId) && isValidProduct(incoming());
+      allow update: if isAdmin() && isValidProduct(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // SALES / ORDERS
+    // ----------------------------------------------------
+    match /sales/{saleId} {
+      allow create: if isSignedIn();
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // CUSTOMERS
+    // ----------------------------------------------------
+    match /customers/{customerId} {
+      allow get, list: if isAdmin();
+      allow create: if true; // Allow anonymous creation during checkout
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // SETTINGS / CONFIG
+    // ----------------------------------------------------
+    match /settings/{settingId} {
+      allow get, list: if true;
+      allow write: if isAdmin();
+    }
+
+    match /appConfig/{configId} {
+      allow get, list: if true;
+      allow write: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // SUGGESTIONS
+    // ----------------------------------------------------
+    match /suggestions/{suggestionId} {
+      allow create: if incoming().keys().hasAll(['companyId', 'message', 'createdAt', 'read']) &&
+                     incoming().message is string && incoming().message.size() <= 2000 &&
+                     incoming().createdAt == request.time && incoming().read == false;
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // INVENTORY (INSUMOS)
+    // ----------------------------------------------------
+    match /insumos/{insumoId} {
+      allow get, list: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // FINANCE
+    // ----------------------------------------------------
+    match /finance/{entryId} {
+      allow get, list, create, update, delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // MONTHLY PROFIT HISTORY
+    // ----------------------------------------------------
+    match /monthly_profit_history/{entryId} {
+      allow get, list, create, update, delete: if isAdmin();
+    }
+
+    // ----------------------------------------------------
+    // GIFT LISTS 
+    // ----------------------------------------------------
+    match /giftLists/{listId} {
+      allow get, list, create, update, delete: if true;
+    }
+
+    // ----------------------------------------------------
+    // ADDONS
+    // ----------------------------------------------------
+    match /addons {
+      allow list: if true;
+      match /{addonId} {
+        allow get: if true;
+        allow write: if isAdmin();
+      }
+    }
+
+    // ----------------------------------------------------
+    // COMMEMORATIVE DATES
+    // ----------------------------------------------------
+    match /datas_comemorativas {
+      allow list: if true;
+      match /{dateId} {
+        function isValidCommemorativeDate(data) {
+          return data.keys().hasAll(['name', 'category', 'active', 'day', 'month']) &&
+                 data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+                 data.category is string &&
+                 data.active is bool &&
+                 data.day is number && data.day >= 0 && data.day <= 31 &&
+                 data.month is number && data.month >= 0 && data.month <= 12;
+        }
+
+        allow get: if true;
+        allow create: if isAdmin() && isValidId(dateId) && isValidCommemorativeDate(incoming());
+        allow update: if isAdmin() && isValidCommemorativeDate(incoming());
+        allow delete: if isAdmin();
+      }
+    }
+  }
+}

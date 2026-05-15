@@ -1,0 +1,239 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Product in the catalog",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "company": { "type": "string", "enum": ["pallyra", "guennita", "mimada"] },
+        "product_name": { "type": "string" },
+        "description": { "type": "string" },
+        "retail_price": { "type": "number" },
+        "wholesale_price": { "type": "number" },
+        "wholesale_min_qty": { "type": "number" },
+        "original_price": { "type": "number" },
+        "current_price": { "type": "number" },
+        "image": { "type": "string" },
+        "image_hover": { "type": "string" },
+        "category": { "type": "string" },
+        "subcategory": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["company", "product_name", "retail_price", "category", "subcategory"]
+    },
+    "Insumo": {
+      "title": "Insumo",
+      "description": "Inventory material",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "unit": { "type": "string", "enum": ["mt", "cx", "pct", "unid"] },
+        "quantity": { "type": "number" },
+        "costPrice": { "type": "number" },
+        "unitValue": { "type": "number" },
+        "description": { "type": "string" },
+        "criticalLimit": { "type": "number" },
+        "category": { "type": "string" },
+        "subcategory": { "type": "string" }
+      },
+      "required": ["name", "unit", "quantity", "costPrice"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Client record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "contact": { "type": "string" },
+        "cpfCnpj": { "type": "string" },
+        "birthDate": { "type": "string" },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "zipCode": { "type": "string" },
+        "totalSpent": { "type": "number" },
+        "ordersCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "companyId": { "type": "string" }
+      },
+      "required": ["name", "contact", "cpfCnpj", "companyId"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "Sale record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerName": { "type": "string" },
+        "contact": { "type": "string" },
+        "total": { "type": "number" },
+        "companyId": { "type": "string" },
+        "items": { "type": "array" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "shipped", "completed", "cancelled"] },
+        "deliveryType": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "contact", "total", "companyId", "items", "status", "createdAt"]
+    },
+    "Config": {
+      "title": "App Config",
+      "description": "Global settings for the application",
+      "type": "object",
+      "properties": {
+        "company_1_name": { "type": "string" },
+        "company_2_name": { "type": "string" },
+        "company_3_name": { "type": "string" },
+        "whatsapp_number": { "type": "string" },
+        "store_cnpj": { "type": "string" },
+        "store_qrcode": { "type": "string" }
+      }
+    },
+    "Suggestion": {
+      "title": "Suggestion",
+      "description": "Anonymous customer feedback",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "companyId": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "read": { "type": "boolean" }
+      },
+      "required": ["companyId", "message", "createdAt", "read"]
+    },
+    "GiftList": {
+      "title": "Gift List",
+      "description": "Customer wishlist",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "companyId": { "type": "string" },
+        "items": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["code", "companyId", "items", "createdAt"]
+    },
+    "SiteSettings": {
+      "title": "Site Settings",
+      "description": "Config for specific catalog",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "instagram": { "type": "string" },
+        "facebook": { "type": "string" },
+        "store_contact": { "type": "string" },
+        "about": { "type": "string" },
+        "logoUrl": { "type": "string" }
+      }
+    },
+    "CommemorativeDate": {
+      "title": "Commemorative Date",
+      "description": "Special dates for marketing and planning",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "day": { "type": "number" },
+        "month": { "type": "number" },
+        "year_fixed": { "type": "boolean" },
+        "recurrent": { "type": "boolean" },
+        "active": { "type": "boolean" },
+        "theme_color": { "type": "string" },
+        "icon": { "type": "string" },
+        "hashtags": { "type": "array" },
+        "marketing_phrase": { "type": "string" },
+        "priority": { "type": "number" },
+        "mobile_id": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "category", "day", "month", "active"]
+    },
+    "FinanceEntry": {
+      "title": "Finance Entry",
+      "description": "Revenue or expense record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["revenue", "expense"] },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "value": { "type": "number" },
+        "date": { "type": "string" },
+        "status": { "type": "string", "enum": ["paid", "pending"] },
+        "companyId": { "type": "string" }
+      },
+      "required": ["type", "category", "description", "value", "date", "status", "companyId"]
+    },
+    "Addon": {
+      "title": "Checkout Addon",
+      "description": "Extra items available at checkout",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "image": { "type": "string" },
+        "active": { "type": "boolean" },
+        "companyId": { "type": "string" }
+      },
+      "required": ["name", "price", "active", "companyId"]
+    }
+  },
+  "firestore": {
+    "/addons/{addonId}": {
+      "schema": "Addon",
+      "description": "Extra items for checkout"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Catalog products"
+    },
+    "/sales/{saleId}": {
+      "schema": "Sale",
+      "description": "Processed sales"
+    },
+    "/insumos/{insumoId}": {
+      "schema": "Insumo",
+      "description": "Inventory materials"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Client database"
+    },
+    "/appConfig/{configId}": {
+      "schema": "Config",
+      "description": "App-wide configuration"
+    },
+    "/suggestions/{suggestionId}": {
+      "schema": "Suggestion",
+      "description": "Customer feedback"
+    },
+    "/giftLists/{listId}": {
+      "schema": "GiftList",
+      "description": "Customer gift lists"
+    },
+    "/settings/{settingId}": {
+      "schema": "SiteSettings",
+      "description": "Company specific settings"
+    },
+    "/finance/{entryId}": {
+      "schema": "FinanceEntry",
+      "description": "Financial bookkeeping"
+    },
+    "/datas_comemorativas/{dateId}": {
+      "schema": "CommemorativeDate",
+      "description": "Marketing calendar dates"
+    }
+  }
+}
